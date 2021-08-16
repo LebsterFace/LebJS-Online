@@ -1,0 +1,6 @@
+{
+	"java": "java",
+	"classpath": "~/LebJS/out",
+	"https": false,
+	"certs": null
+}

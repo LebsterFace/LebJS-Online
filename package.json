@@ -1,0 +1,14 @@
+{
+  "name": "lebjs-online",
+  "version": "1.0.0",
+  "description": "Interact with the LebJS REPL online",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Lebster",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^8.1.0"
+  },
+  "private": true
+}

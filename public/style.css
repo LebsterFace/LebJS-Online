@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+* {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	max-height: 100%;
+	white-space: pre-wrap;
+	padding: 11px;
+}
+
+#terminal {
+	width: 100%;
+	height: fit-content;
+}
+
+#prompt {
+	width: 100%;
+	display: flex;
+	flex: 1;
+}
+
+#input {
+	flex: 1;
+	resize: none;
+}
+
+#prompt, #terminal, #input {
+	background-color: transparent;
+	color: inherit;
+	font-size: inherit;
+	font-family: inherit;
+}
+
+#terminal .line {
+	display: block;
+	word-break: break-all;
+	white-space: pre-wrap;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
+}
+
+:root[data-theme="so_v_ette"] {
+	--font-size: 2.5em;
+	--font-family: Inconsolata, 'Courier New', Courier, monospace;
+	--background-color: #0c0c0c;
+	--foreground-color: rgb(118, 118, 118);
+}
+
+:root[data-theme="devtools"], :root[data-theme="lebster"] {
+	--font-size: 2em;
+	--font-family: monospace;
+	--foreground-color: #D9D9D9;
+	--background-color: #202124;
+	--prefix-color: #367CF1;
+}
+
+:root[data-theme="lebster"] {
+	--font-family: "Fira Code";
+}
+
+:root[data-theme="devtools"] .prefix {
+	font-style: italic;
+}
+
+.prefix {
+	color: var(--prefix-color);
+	font-weight: 900;
+}
+
+.prefix.sent {
+	font-style: normal;
+}
+
+body {
+	background-color: var(--background-color);
+	color: var(--foreground-color);
+	font-family: var(--font-family);
+	font-size: var(--font-size);
+}
+
+::selection {
+	color: var(--background-color);
+	background-color: var(--foreground-color);
+}
