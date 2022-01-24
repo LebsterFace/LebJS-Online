@@ -1,14 +1,15 @@
 {
-  "name": "lebjs-online",
-  "version": "1.0.0",
-  "description": "Interact with the LebJS REPL online",
-  "main": "index.js",
-  "scripts": {},
-  "author": "Lebster",
-  "license": "GPL-3.0-or-later",
-  "dependencies": {
-    "express": "^4.17.1",
-    "ws": "^8.1.0"
-  },
-  "private": true
+	"name": "lebjs-online",
+	"version": "1.0.0",
+	"description": "Interact with the LebJS REPL online",
+	"main": "index.js",
+	"scripts": {},
+	"author": "Lebster",
+	"license": "BSD-3-Clause",
+	"dependencies": {
+		"express": "^4.17.2",
+		"tree-kill": "^1.2.2",
+		"ws": "^8.4.2"
+	},
+	"private": true
 }

@@ -1,11 +1,13 @@
-const express = require("express"),
-	https = require("https"),
-	fs = require("fs");
+// Express HTTPS Server
+const express = require("express");
+const https = require("https");
+const fs = require("fs");
+const path = require("path");
+const kill = require("tree-kill");
+const config = require("./config.json");
+const { spawn } = require("child_process");
 
-const app = express(),
-	port = 8080;
-
-app.use(express.static("public"));
+const app = express();
 
 const createHTTPS = () =>
 	https.createServer({
@@ -13,41 +15,47 @@ const createHTTPS = () =>
 		cert: fs.readFileSync(config.certs.cert, "utf8")
 	}, app);
 
-const config = require("./config.json");
+
+app.use(express.static(path.join(__dirname, "public")));
+
 const server = config.https ? createHTTPS() : app;
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 8080 });
 
-server
-	.listen(port)
-	.once("listening", () => {
-		console.log("Running on port " + port);
-	})
-	.on("error", e => {
-		console.error(e);
-	});
+wss.on("connection", (ws, req) => {
+	try {
+		const child = spawn("java", [
+			"-Xmx50m", "-jar", config.lebjs,
+			"--AST", "--hide", "--prompt"
+		]);
 
+		ws.on("close", () => kill(child.pid));
 
-const {Server} = require("ws");
-const {spawn} = require("child_process");
-const wss = new Server({port: 1234});
+		child.stdout.on("data", data => ws.send(data.toString()));
+		child.stderr.on("data", data => ws.send(data.toString()));
 
-const spawnLebJS = () => spawn(config.java, [
-	"-Dfile.encoding=UTF-8",
-	"-classpath", config.classpath,
-	"xyz.lebster.Main",
-	"-ast", "-prompt", "-hide", "-expect"
-]);
+		child.on("close", () => { ws.close(1000, "Proccess terminated."); });
 
-wss.on("connection", ws => {
-	const child = spawnLebJS();
+		child.on("error", err => {
+			ws.close(1000, "Proccess closed due to error.");
+			console.error(err);
+		});
 
-	child.on('close', () => ws.close());
-	child.on('error', () => ws.close());
+		ws.on("message", message => {
+			const input = message.toString();
+			if (input === ".exit\n") return kill(child.pid);
+			child.stdin.write(input);
+		});
+	} catch (err) {
+		try {
+			ws.close();
+		} catch (err) {
+			console.error("Failed to close websocket", err);
+		}
+		console.error(err);
+	}
+});
 
-	child.stdout.on("data", function(data) {
-		ws.send(data.toString().replace(/\r/g, ""));
-	});
-
-	ws.on("message", m => {
-		child.stdin.write(m.toString() + "\r\n");
-	});
+server.listen(config.port, () => {
+	console.log("Listening on port " + config.port);
 });

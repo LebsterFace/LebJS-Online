@@ -1,0 +1,5 @@
+{
+	"lebjs": "LebJS.jar",
+	"port": 3000,
+	"https": false
+}

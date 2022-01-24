@@ -1,3 +1,4 @@
-*.pem
-node_modules
-/local-config.json
+node_modules/
+cert/
+config.json
+LebJS.jar
