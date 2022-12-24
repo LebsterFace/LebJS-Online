@@ -1,21 +1,60 @@
 <!DOCTYPE html>
 <!-- Website designed by "Lebster" -->
 <!-- Date created: 24th January 2022 -->
-<html lang="en" data-theme="devtools">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <style id="theme"></style>
-        <title>LebJS</title>
-    </head>
-    <body>
-        <div id="terminal"></div>
-        <div id="prompt">
-            <span id="prefix" class="prefix">&gt; </span>
-            <textarea id="input" disabled spellcheck="false" autocapitalize="false" autocomplete="false" autofocus></textarea>
-        </div>
-        <script src="main.js"></script>
-    </body>
+<!-- Date updated: 24th December 2022 -->
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+		<title>LebJS</title>
+	</head>
+	<body>
+		<div id="settings">
+			<label for="theme">
+				Theme:
+				<select name="theme" id="theme">
+					<option value="ORIGINAL">Devtools</option>
+					<option value="VGA">CGA</option>
+					<option value="UBUNTU">Ubuntu</option>
+					<option value="DRACULA">Dracula</option>
+					<option value="ONEHALFDARK">One Half Dark</option>
+				</select>
+			</label>
+			<br>
+			<label for="font">
+				Font Family:
+				<select name="font" id="font">
+					<option style="font-family: &quot;Source Code Pro&quot;;">Source Code Pro</option>
+					<option style="font-family: &quot;Cascadia Code&quot;;">Cascadia Code</option>
+					<option style="font-family: &quot;Cascadia Mono&quot;;">Cascadia Mono</option>
+					<option style="font-family: Consolas;">Consolas</option>
+					<option style="font-family: &quot;Courier New&quot;;">Courier New</option>
+					<option style="font-family: &quot;Fira Code&quot;;">Fira Code</option>
+					<option style="font-family: Hack;">Hack</option>
+					<option style="font-family: Inconsolata;">Inconsolata</option>
+					<option style="font-family: &quot;Iosevka Slab&quot;;">Iosevka Slab</option>
+					<option style="font-family: &quot;JetBrains Mono&quot;;">JetBrains Mono</option>
+					<option style="font-family: &quot;Lucida Console&quot;;">Lucida Console</option>
+					<option style="font-family: &quot;MS Gothic&quot;;">MS Gothic</option>
+					<option style="font-family: &quot;SF Mono&quot;;">SF Mono</option>
+					<option style="font-family: &quot;Ubuntu Mono&quot;;">Ubuntu Mono</option>
+				</select>
+			</label>
+			<br>
+			<label for="size">
+				Font Size:
+				<input type="number" name="size" id="size" min=1 value="32">
+			</label>
+			<br>
+		</div>
+		<div id="terminal"></div>
+		<div id="prompt">
+			<span id="prefix" class="prefix">&gt; </span>
+			<textarea id="input" disabled spellcheck="false" autocapitalize="false" autocomplete="false" autofocus></textarea>
+		</div>
+		<script src="colour.js"></script>
+		<script src="main.js"></script>
+	</body>
 </html>

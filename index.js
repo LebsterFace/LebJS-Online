@@ -1,8 +1,9 @@
 // Express HTTPS Server
 const express = require("express");
 const https = require("https");
-const fs = require("fs");
-const path = require("path");
+const fs = require("node:fs");
+const path = require("node:path");
+const url = require('node:url');
 const kill = require("tree-kill");
 const config = require("./config.json");
 const { spawn } = require("child_process");
@@ -23,37 +24,44 @@ const WebSocket = require("ws");
 const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on("connection", (ws, req) => {
+	const { query } = url.parse(req.url, true);
+
 	try {
-		const child = spawn("java", [
-			"-Xmx50m", "-jar", config.lebjs,
-			"--AST", "--hide", "--prompt"
-		]);
+		const args = [
+			`-Xmx8M`, "-jar", config.lebjs,
+			"--disable-prompt"
+		];
 
-		ws.on("close", () => kill(child.pid));
+		if (!('noast' in query)) args.push("--AST");
+		if ('verbose' in query) args.push("--verbose");
 
-		child.stdout.on("data", data => ws.send(data.toString()));
-		child.stderr.on("data", data => ws.send(data.toString()));
+		const child = spawn("java", args);
 
-		child.on("close", () => { ws.close(1000, "Proccess terminated."); });
+ws.on("close", () => kill(child.pid));
 
-		child.on("error", err => {
-			ws.close(1000, "Proccess closed due to error.");
-			console.error(err);
-		});
+child.stdout.on("data", data => ws.send(data.toString()));
+child.stderr.on("data", data => ws.send(data.toString()));
 
-		ws.on("message", message => {
-			const input = message.toString();
-			if (input === ".exit\n") return kill(child.pid);
-			child.stdin.write(input);
-		});
+child.on("close", () => { ws.close(1000, "Proccess terminated."); });
+
+child.on("error", err => {
+	ws.close(1000, "Proccess closed due to error.");
+	console.error(err);
+});
+
+ws.on("message", message => {
+	const input = message.toString();
+	if (input === ".exit\n") return kill(child.pid);
+	child.stdin.write(input);
+});
 	} catch (err) {
-		try {
-			ws.close();
-		} catch (err) {
-			console.error("Failed to close websocket", err);
-		}
-		console.error(err);
+	try {
+		ws.close();
+	} catch (err) {
+		console.error("Failed to close websocket", err);
 	}
+	console.error(err);
+}
 });
 
 server.listen(config.port, () => {

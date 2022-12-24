@@ -1,37 +1,74 @@
-const ANSI = {
-	"\x1b[30m": "#000000",
-	"\x1b[31m": "#CD0000",
-	"\x1b[32m": "#00CD00",
-	"\x1b[33m": "#CDCD00",
-	"\x1b[34m": "#0000EE",
-	"\x1b[35m": "#CD00CD",
-	"\x1b[36m": "#00CDCD",
-	"\x1b[37m": "#FFFFFF",
-	"\x1b[0m": "inherit",
-	"\x1b[90m": "#7F7F7F",
-	"\x1b[91m": "#FF0000",
-	"\x1b[92m": "#00FF00",
-	"\x1b[93m": "#FFFF00",
-	"\x1b[94m": "#5C5CFF",
-	"\x1b[95m": "#FF00FF",
-	"\x1b[96m": "#00FFFF",
-	"\x1b[97m": "#FFFFFF"
-};
+// @ts-check
+"use strict";
 
 /** @type {HTMLTextAreaElement} */
 // @ts-ignore
-const inputElement = document.getElementById("input"),
-	terminalElement = document.getElementById("terminal"),
-	promptElement = document.getElementById("prompt");
+const inputElement = document.getElementById("input");
+
+/** @type {HTMLDivElement} */
+// @ts-ignore
+const terminalElement = document.getElementById("terminal");
+
+/** @type {HTMLDivElement} */
+// @ts-ignore
+const promptElement = document.getElementById("prompt");
+
+/** @type {HTMLSelectElement} */
+// @ts-ignore
+const themeDropdown = document.getElementById("theme");
+if (localStorage.getItem("theme"))
+	// @ts-ignore
+	themeDropdown.value = localStorage.getItem("theme");
+
+const root = document.documentElement;
+const updateTheme = () => {
+	localStorage.setItem("theme", themeDropdown.value);
+	for (const [variable, color] of Object.entries(COLOR_SCHEMES[themeDropdown.value])) {
+		root.style.setProperty(`--${variable}`, color);
+	}
+};
+
+updateTheme();
+themeDropdown.addEventListener("input", updateTheme);
+
+/** @type {HTMLSelectElement} */
+// @ts-ignore
+const fontDropdown = document.getElementById("font");
+if (localStorage.getItem("font"))
+	// @ts-ignore
+	fontDropdown.value = localStorage.getItem("font");
+
+const updateFont = () => {
+	localStorage.setItem("font", fontDropdown.value);
+	root.style.setProperty(`--font-family`, fontDropdown.value);
+};
+
+updateFont();
+fontDropdown.addEventListener("input", updateFont);
+
+/** @type {HTMLInputElement} */
+// @ts-ignore
+const sizeInput = document.getElementById("size");
+if (localStorage.getItem("size"))
+	// @ts-ignore
+	sizeInput.value = Number(localStorage.getItem("size"));
+
+const updateSize = () => {
+	localStorage.setItem("size", sizeInput.value);
+	root.style.setProperty(`--font-size`, sizeInput.value + "px");
+};
+
+updateSize();
+sizeInput.addEventListener("input", updateSize);
 
 let currentColor = "inherit";
 const stdoutToHTML = stdout => {
 	const regex = new RegExp("\x1b\\[.+?m$", "");
 	let temp = "";
 
-	const span = txt => {
+	const span = (/** @type {string} */ txt) => {
 		const result = document.createElement("span");
-		result.style.color = currentColor;
+		result.style.color = `var(--${currentColor})`;
 		result.textContent = txt;
 		return result;
 	};
@@ -45,11 +82,24 @@ const stdoutToHTML = stdout => {
 			temp = "";
 		} else {
 			temp += char;
-			if (regex.test(temp)) {
-				const match = temp.match(regex)[0],
-					pure = temp.replace(regex, "");
+
+			if (temp === '\x1B[H\x1B[2J') {
+				// Clear screen
+				temp = "";
+				terminalElement.replaceChildren();
+				continue;
+			}
+
+			const match = temp.match(regex);
+			if (match !== null) {
+				const pure = temp.replace(regex, "");
 				terminalElement.appendChild(span(pure));
-				currentColor = ANSI[match];
+				if (match[0] in CSS_VARIABLE_NAMES) {
+					currentColor = CSS_VARIABLE_NAMES[match[0]];
+				} else {
+					console.warn(`Unsupported escape code:`, JSON.stringify(match[0]));
+				}
+
 				temp = "";
 			}
 		}
@@ -58,10 +108,10 @@ const stdoutToHTML = stdout => {
 	terminalElement.appendChild(span(temp));
 };
 
-const REPL = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket("ws://localhost:8080/" + location.search.toLowerCase());
 const scrollToBottom = () => window.scrollTo(0, document.body.scrollHeight);
 
-REPL.addEventListener("message", ({ data }) => {
+socket.addEventListener("message", ({ data }) => {
 	inputElement.disabled = false;
 	inputElement.focus();
 
@@ -69,14 +119,14 @@ REPL.addEventListener("message", ({ data }) => {
 	scrollToBottom();
 });
 
-REPL.addEventListener("error", err => {
+socket.addEventListener("error", err => {
 	console.error(err);
 	terminalElement.append("\nWebSocket Error:\n" + err.toString() + "\n");
 	promptElement.remove();
 	scrollToBottom();
 });
 
-REPL.addEventListener("close", (ev) => {
+socket.addEventListener("close", (ev) => {
 	terminalElement.append("\n" + ev.reason);
 	promptElement.remove();
 	scrollToBottom();
@@ -90,7 +140,7 @@ const exec = code => {
 	terminalElement.appendChild(document.createTextNode(code + "\n"));
 	scrollToBottom();
 
-	REPL.send(code + "\n");
+	socket.send(code + "\n");
 };
 
 inputElement.addEventListener("keydown", async e => {
@@ -102,6 +152,4 @@ inputElement.addEventListener("keydown", async e => {
 	}
 });
 
-window.addEventListener("keydown", e => {
-	inputElement.focus();
-});
+inputElement.focus();
