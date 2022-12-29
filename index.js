@@ -28,7 +28,7 @@ wss.on("connection", (ws, req) => {
 
 	try {
 		const args = [
-			`-Xmx8M`, "-jar", config.lebjs,
+			`-Xmx8M`, ...config.lebjs,
 			"--disable-prompt"
 		];
 
@@ -37,31 +37,31 @@ wss.on("connection", (ws, req) => {
 
 		const child = spawn("java", args);
 
-ws.on("close", () => kill(child.pid));
+		ws.on("close", () => kill(child.pid));
 
-child.stdout.on("data", data => ws.send(data.toString()));
-child.stderr.on("data", data => ws.send(data.toString()));
+		child.stdout.on("data", data => ws.send(data.toString()));
+		child.stderr.on("data", data => ws.send(data.toString()));
 
-child.on("close", () => { ws.close(1000, "Proccess terminated."); });
+		child.on("close", () => { ws.close(1000, "Proccess terminated."); });
 
-child.on("error", err => {
-	ws.close(1000, "Proccess closed due to error.");
-	console.error(err);
-});
+		child.on("error", err => {
+			ws.close(1000, "Proccess closed due to error.");
+			console.error(err);
+		});
 
-ws.on("message", message => {
-	const input = message.toString();
-	if (input === ".exit\n") return kill(child.pid);
-	child.stdin.write(input);
-});
+		ws.on("message", message => {
+			const input = message.toString();
+			if (input === ".exit\n") return kill(child.pid);
+			child.stdin.write(input);
+		});
 	} catch (err) {
-	try {
-		ws.close();
-	} catch (err) {
-		console.error("Failed to close websocket", err);
+		try {
+			ws.close();
+		} catch (err) {
+			console.error("Failed to close websocket", err);
+		}
+		console.error(err);
 	}
-	console.error(err);
-}
 });
 
 server.listen(config.port, () => {
