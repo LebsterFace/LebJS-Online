@@ -8,6 +8,9 @@ const kill = require("tree-kill");
 const config = require("./config.json");
 const { spawn } = require("child_process");
 
+// Should only allow one session?
+const isSingle = process.argv.slice(2).includes("single");
+
 const app = express();
 
 const createHTTPS = () =>
@@ -36,7 +39,10 @@ wss.on("connection", (ws, req) => {
 
 		const child = spawn("java", args);
 
-		ws.on("close", () => kill(child.pid));
+		ws.on("close", () => {
+			kill(child.pid);
+			if (isSingle) process.exit();
+		});
 
 		child.stdout.on("data", data => ws.send(data.toString()));
 		child.stderr.on("data", data => ws.send(data.toString()));
@@ -54,15 +60,22 @@ wss.on("connection", (ws, req) => {
 			child.stdin.write(input);
 		});
 	} catch (err) {
+		console.error(err);
 		try {
 			ws.close();
 		} catch (err) {
 			console.error("Failed to close websocket", err);
 		}
-		console.error(err);
+		if (isSingle) process.exit();
 	}
 });
 
 server.listen(config.port, () => {
 	console.log("Listening on port " + config.port);
 });
+
+require("readline")
+	.createInterface({ input: process.stdin, output: process.stdout })
+	.on("SIGINT", () => process.emit("SIGINT"));
+
+process.on("SIGINT", () => process.exit());
