@@ -16,7 +16,6 @@ const createHTTPS = () =>
 		cert: fs.readFileSync(config.certs.cert, "utf8")
 	}, app);
 
-
 app.use(express.static(path.join(__dirname, "public")));
 
 const server = config.https ? createHTTPS() : app;
@@ -32,7 +31,7 @@ wss.on("connection", (ws, req) => {
 			"--disable-prompt"
 		];
 
-		if (!('noast' in query)) args.push("--AST");
+		if ('ast' in query) args.push("--AST");
 		if ('verbose' in query) args.push("--verbose");
 
 		const child = spawn("java", args);

@@ -62,13 +62,18 @@ updateSize();
 sizeInput.addEventListener("input", updateSize);
 
 let currentColor = "inherit";
+let isBold = false;
 const stdoutToHTML = stdout => {
+	console.log(stdout.replaceAll("\x1b", "ESC"));
 	const regex = new RegExp("\x1b\\[.+?m$", "");
 	let temp = "";
 
 	const span = (/** @type {string} */ txt) => {
 		const result = document.createElement("span");
 		result.style.color = `var(--${currentColor})`;
+		result.style.fontWeight = isBold ? "bold" : "inherit";
+		result.style.textDecoration = isBold ? "underline" : "inherit";
+		result.style.fontStyle = isBold ? "italic" : "inherit";
 		result.textContent = txt;
 		return result;
 	};
@@ -88,6 +93,11 @@ const stdoutToHTML = stdout => {
 				temp = "";
 				terminalElement.replaceChildren();
 				continue;
+			} else if (temp === '\x1B[1m') {
+				// Set bold
+				temp = "";
+				isBold = true;
+				continue;
 			}
 
 			const match = temp.match(regex);
@@ -96,6 +106,7 @@ const stdoutToHTML = stdout => {
 				terminalElement.appendChild(span(pure));
 				if (match[0] in CSS_VARIABLE_NAMES) {
 					currentColor = CSS_VARIABLE_NAMES[match[0]];
+					if (currentColor === "RESET") isBold = false;
 				} else {
 					console.warn(`Unsupported escape code:`, JSON.stringify(match[0]));
 				}
