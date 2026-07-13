@@ -86,13 +86,22 @@ body {
 	position: fixed;
 	top: 0;
 	right: 0;
-	width: 10ch;
-	height: 50%;
+	width: 30ch;
+	height: 75%;
 }
 
 #settings-catcher:hover + #settings, #settings:hover {
 	opacity: 1;
 	transform: translateX(0);
+}
+
+#settings input, #settings select {
+	min-width: 0;
+	font: inherit;
+}
+
+#custom[hidden], #custom-label[hidden] {
+	display: none;
 }
 
 :root {

@@ -34,17 +34,47 @@ themeDropdown.addEventListener("input", updateTheme);
 /** @type {HTMLSelectElement} */
 // @ts-ignore
 const fontDropdown = document.getElementById("font");
-if (localStorage.getItem("font"))
-	// @ts-ignore
-	fontDropdown.value = localStorage.getItem("font");
+
+/** @type {HTMLInputElement} */
+// @ts-ignore
+const customFontInput = document.getElementById("custom");
+
+/** @type {HTMLLabelElement} */
+// @ts-ignore
+const customFontLabel = document.getElementById("custom-label");
+
+const savedFont = localStorage.getItem("font");
+if (savedFont && Array.from(fontDropdown.options).some(option => option.value === savedFont))
+	fontDropdown.value = savedFont;
+
+customFontInput.value = localStorage.getItem("customFont") ?? "";
 
 const updateFont = () => {
+	const isCustom = fontDropdown.value === "Custom";
+	const customFont = customFontInput.value.trim();
+
+	customFontLabel.hidden = !isCustom;
+	customFontInput.hidden = !isCustom;
+	customFontInput.disabled = !isCustom;
+
 	localStorage.setItem("font", fontDropdown.value);
-	root.style.setProperty(`--font-family`, fontDropdown.value);
+	localStorage.setItem("customFont", customFontInput.value);
+
+	const fontFamily = isCustom
+		? customFont || "monospace"
+		: `"${fontDropdown.value.replaceAll('"', '\\"')}", monospace`;
+
+	root.style.setProperty("--font-family", fontFamily);
 };
 
 updateFont();
-fontDropdown.addEventListener("input", updateFont);
+fontDropdown.addEventListener("change", () => {
+	updateFont();
+	if (fontDropdown.value === "Custom") {
+		customFontInput.focus();
+	}
+});
+customFontInput.addEventListener("input", updateFont);
 
 /** @type {HTMLInputElement} */
 // @ts-ignore

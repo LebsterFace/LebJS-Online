@@ -32,7 +32,7 @@
 				<option style="font-family: &quot;Menlo&quot;;">Menlo</option>
 				<option style="font-family: &quot;Roboto Mono&quot;;">Roboto Mono</option>
 				<option style="font-family: &quot;Ubuntu Mono&quot;;">Ubuntu Mono</option>
-				<option>Custom</option>
+				<option value="Custom">Custom</option>
 				<!--
 					<option style="font-family: &quot;Anonymous Pro&quot;;">Anonymous Pro</option>
 					<option style="font-family: &quot;CMU Typewriter Text&quot;;">CMU Typewriter Text</option>
@@ -53,8 +53,8 @@
 			</select>
 			<label for="size">Font Size:</label>
 			<input type="number" name="size" id="size" min=1 value="32">
-			<label for="custom">Custom font:</label>
-			<input type="text" name="custom" id="custom" placeholder="Font family...">
+			<label for="custom" id="custom-label" hidden>Custom font:</label>
+			<input type="text" name="custom" id="custom" placeholder='Font family...' autocomplete="off" disabled hidden>
 		</div>
 		<div id="terminal"></div>
 		<div id="prompt">
