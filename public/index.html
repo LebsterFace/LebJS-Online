@@ -11,52 +11,50 @@
 		<title>LebJS</title>
 	</head>
 	<body>
+		<div id="settings-catcher"></div>
 		<div id="settings">
-			<label for="theme">
-				Theme:
-				<select name="theme" id="theme">
-					<option value="ORIGINAL">Devtools</option>
-					<option value="VGA">CGA</option>
-					<option value="UBUNTU">Ubuntu</option>
-					<option value="DRACULA">Dracula</option>
-					<option value="ONEHALFDARK">One Half Dark</option>
-				</select>
-			</label>
-			<br>
-			<label for="font">
-				Font Family:
-				<select name="font" id="font">
-					<option style="font-family: &quot;Inconsolata&quot;;">Inconsolata</option>
+			<label for="theme">Theme:</label>
+			<select name="theme" id="theme">
+				<option value="ORIGINAL">Devtools</option>
+				<option value="VGA">CGA</option>
+				<option value="UBUNTU">Ubuntu</option>
+				<option value="DRACULA">Dracula</option>
+				<option value="ONEHALFDARK">One Half Dark</option>
+			</select>
+			<label for="font">Font Family:</label>
+			<select name="font" id="font">
+				<option style="font-family: &quot;JetBrains Mono&quot;;">JetBrains Mono</option>
+				<option style="font-family: &quot;Fira Code&quot;;">Fira Code</option>
+				<option style="font-family: &quot;Inconsolata&quot;;">Inconsolata</option>
+				<option style="font-family: &quot;Consolas&quot;;">Consolas</option>
+				<option style="font-family: &quot;Cascadia Mono&quot;;">Cascadia Mono</option>
+				<option style="font-family: &quot;Source Code Pro&quot;;">Source Code Pro</option>
+				<option style="font-family: &quot;Menlo&quot;;">Menlo</option>
+				<option style="font-family: &quot;Roboto Mono&quot;;">Roboto Mono</option>
+				<option style="font-family: &quot;Ubuntu Mono&quot;;">Ubuntu Mono</option>
+				<option>Custom</option>
+				<!--
 					<option style="font-family: &quot;Anonymous Pro&quot;;">Anonymous Pro</option>
 					<option style="font-family: &quot;CMU Typewriter Text&quot;;">CMU Typewriter Text</option>
 					<option style="font-family: &quot;Cascadia Code&quot;;">Cascadia Code</option>
-					<option style="font-family: &quot;Cascadia Mono&quot;;">Cascadia Mono</option>
-					<option style="font-family: &quot;Consolas&quot;;">Consolas</option>
+					<option style="font-family: &quot;Casio fx-CG50 sizeA&quot;;">Casio fx-CG50 sizeA</option>
 					<option style="font-family: &quot;Courier New&quot;;">Courier New</option>
 					<option style="font-family: &quot;DM Mono&quot;;">DM Mono</option>
 					<option style="font-family: &quot;Fantasque Sans Mono&quot;;">Fantasque Sans Mono</option>
-					<option style="font-family: &quot;Fira Code&quot;;">Fira Code</option>
 					<option style="font-family: &quot;Fixedsys Excelsior&quot;;">Fixedsys Excelsior</option>
 					<option style="font-family: &quot;Geist Mono&quot;;">Geist Mono</option>
 					<option style="font-family: &quot;IBM Plex Mono&quot;;">IBM Plex Mono</option>
 					<option style="font-family: &quot;Iosevka Slab&quot;;">Iosevka Slab</option>
-					<option style="font-family: &quot;JetBrains Mono&quot;;">JetBrains Mono</option>
 					<option style="font-family: &quot;Lucida Console&quot;;">Lucida Console</option>
-					<option style="font-family: &quot;Menlo&quot;;">Menlo</option>
 					<option style="font-family: &quot;OCR A&quot;;">OCR A</option>
-					<option style="font-family: &quot;Roboto Mono&quot;;">Roboto Mono</option>
 					<option style="font-family: &quot;SF Mono&quot;;">SF Mono</option>
-					<option style="font-family: &quot;Source Code Pro&quot;;">Source Code Pro</option>
 					<option style="font-family: &quot;Space Mono&quot;;">Space Mono</option>
-					<option style="font-family: &quot;Ubuntu Mono&quot;;">Ubuntu Mono</option>
-				</select>
-			</label>
-			<br>
-			<label for="size">
-				Font Size:
-				<input type="number" name="size" id="size" min=1 value="32">
-			</label>
-			<br>
+-->
+			</select>
+			<label for="size">Font Size:</label>
+			<input type="number" name="size" id="size" min=1 value="32">
+			<label for="custom">Custom font:</label>
+			<input type="text" name="custom" id="custom" placeholder="Font family...">
 		</div>
 		<div id="terminal"></div>
 		<div id="prompt">

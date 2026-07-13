@@ -1,0 +1,17 @@
+@font-face { font-family: "Cascadia Mono"; src: url("/fonts/CascadiaMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Cascadia Mono"; src: url("/fonts/CascadiaMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Consolas"; src: url("/fonts/consola.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Consolas"; src: url("/fonts/consolab.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Fira Code"; src: url("/fonts/FiraCode-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Fira Code"; src: url("/fonts/FiraCode-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Inconsolata"; src: url("/fonts/Inconsolata-VariableFont_wdth,wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-stretch: 100%; font-display: swap; }
+@font-face { font-family: "Inconsolata"; src: url("/fonts/Inconsolata-VariableFont_wdth,wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-stretch: 100%; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/fonts/JetBrainsMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/fonts/JetBrainsMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Menlo"; src: url("/fonts/Menlo-Regular.woff") format("woff"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Roboto Mono"; src: url("/fonts/RobotoMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Roboto Mono"; src: url("/fonts/RobotoMono-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Source Code Pro"; src: url("/fonts/SourceCodePro-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Source Code Pro"; src: url("/fonts/SourceCodePro-VariableFont_wght.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: "Ubuntu Mono"; src: url("/fonts/UbuntuMono-Regular.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Ubuntu Mono"; src: url("/fonts/UbuntuMono-Bold.woff2") format("woff2"); font-style: normal; font-weight: 700; font-display: swap; }

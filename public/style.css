@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+@import url('/fonts.css');
+
+
+:root {
+	color-scheme: light dark;
+}
 
 * {
 	margin: 0;
@@ -63,18 +68,31 @@ body {
 
 #settings {
 	position: fixed;
-    background: #fff3;
-    padding: 1ch;
-    border-radius: 5px;
-    border: 2px dotted white;
+	background: #fff3;
+	padding: 1ch;
+	border-radius: 5px;
+	border: 2px dotted white;
 	right: 1ch;
 	font-size: 1rem;
 	opacity: 0.1;
-	transition: opacity 80ms ease;
+	transform: translateX(75%);
+	transition: opacity 80ms ease, transform 70ms ease;
+	display: grid;
+	grid-template-columns: 15ch 22ch;
+	gap: 2px;
 }
 
-#settings:hover {
+#settings-catcher {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 10ch;
+	height: 50%;
+}
+
+#settings-catcher:hover + #settings, #settings:hover {
 	opacity: 1;
+	transform: translateX(0);
 }
 
 :root {
@@ -84,7 +102,7 @@ body {
 }
 
 :root .prefix {
-	font-style: italic;
+	/* font-style: italic; */
 }
 
 .prefix {
